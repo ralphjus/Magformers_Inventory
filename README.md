@@ -5,7 +5,7 @@ s/o to Squareup [Python SDK](https://github.com/square/square-python-sdk/)
 
 First attempt at calling my own functions.
 
-<img src='https://github.com/ralphjus/Magformers-inventory/blob/main/basic_gui.png'>
+<img src='https://github.com/ralphjus/Magformers_Inventory/blob/main/basic_gui.png'>
 
 ## Done
 
