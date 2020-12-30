@@ -4,18 +4,25 @@ from square.client import Client
 import datetime 
 from datetime import timezone
 import uuid
+import tkinter as tk
+from tkinter import ttk
 
-def push_to_square():
-    wb = openpyxl.load_workbook('catalog-2020-11-28-1652.xlsx')
+def push_to_square(tab,workbook,catalog):
+    wb = openpyxl.load_workbook(catalog)
     ws = wb.active
     wb.sheetnames
-
     sheet = wb['Items']
 
     item_ids = []
 
+    popup = tk.Toplevel()
+    tk.Label(popup, text="Pushing to Square...").grid(row=0,column=0)
+    progress = 0
+    progress_var = tk.DoubleVar()
+    progress_bar = ttk.Progressbar(popup, variable=progress_var, maximum=100)
+    progress_bar.grid(row=1,column=0)
+
     for item in range(2,sheet.max_row +1):
-    
         item_ids.append(sheet['A'+str(item)].value)
 
     client = Client(
@@ -50,15 +57,14 @@ def push_to_square():
 
     d = datetime.datetime.utcnow()
 
-    wb = openpyxl.load_workbook('Inventory.xlsx')
+    wb = openpyxl.load_workbook(workbook)
     ws = wb.active
     wb.sheetnames
-
-    sheet_name = input("Enter product line to push (excel tab name):\n")
-
-    sheet = wb[sheet_name]
-
+    sheet = wb[tab]
+    
+    progress_step = float(100.0/sheet.max_row)
     for item in range(4,sheet.max_row +1):
+        popup.update()
         if sheet['F'+str(item)].value != None:
 
             body = {}
@@ -80,7 +86,10 @@ def push_to_square():
                 print(result.body)
             elif result.is_error():
                 print(result.errors)
+        progress += progress_step
+        progress_var.set(progress)
+    tk.Label(popup, text="Success!").grid(row=3,column=0)
+    popup.update()
+    
 if __name__ == '__main__':
-    print("You should run me in main, but ok!")
-    push_to_square()
-#location_id=CMRZVV9YNFAJP
+    print("You should run me from Inventory command!")
