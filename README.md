@@ -5,6 +5,8 @@ s/o to Squareup [Python SDK](https://github.com/square/square-python-sdk/)
 
 First attempt at calling my own functions.
 
+<img src='https://github.com/ralphjus/Magformers_Inventory/blob/main/UpdatedGUI.png'>
+
 <img src='https://github.com/ralphjus/Magformers_Inventory/blob/main/basic_gui.png'>
 
 ## Done
@@ -19,8 +21,9 @@ First attempt at calling my own functions.
 
 - [x] Pulling of inventory data from Sqaure POS to community Excel sheet in the event of sales/other Sqaure inventory manipulation
 
+- [x] Develop GUI
+
 ## Todo
 
 - [ ] Push new items to Square when discovered
-- [ ] Create/improve UI outside of command line
 - [ ] exception handlers to prevent crashing from imperfect inputs
