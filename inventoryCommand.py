@@ -46,6 +46,7 @@ if __name__ == "__main__":
     workbook = ""
     catalog = ""
     root = Tk()
+    root.title("Magformers Inventory Manager 2k20")
     w = 1300 # width for the Tk root
     h = 700 # height for the Tk root
 
@@ -163,8 +164,10 @@ if __name__ == "__main__":
                 print(sheet['B' + str(row)].value)
                 sheet['E'+str(row)] = int(sheet['E'+str(row)].value) + 1
                 wb.save(workbook)
-                wb.close(workbook)
                 print("Inventory count: {}".format(sheet['E'+str(row)].value))
+                display = sheet['B' + str(row)].value,"Inventory count: {}".format(sheet['E'+str(row)].value)
+                var.set(display)
+                root.update_idletasks()
                 hit = 1
         if hit == 0:
             print("***PRODUCT NOT IN LIST***")
@@ -176,7 +179,6 @@ if __name__ == "__main__":
                 sheet['B'+str(new_row)] = description
                 sheet['E'+str(new_row)] = 1
                 wb.save(workbook)
-                wb.close(workbook)
             
             elif add == "n":
                 print("Canceled. scan next item.")
@@ -215,6 +217,10 @@ if __name__ == "__main__":
         label_catalog = Label(root, text=catalog).grid(row = 7, column = 0)
     else:
         label_workbook = Label(root, text="No catalog loaded!").grid(row = 7, column = 0)
+    var = StringVar()
+    var.set('Items will appear here once entered')
 
+    h = Label(root,fg="green", textvariable = var)
+    h.grid(row=8,column=0)
 
     root.mainloop()
