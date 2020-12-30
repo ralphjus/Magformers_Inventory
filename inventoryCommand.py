@@ -5,6 +5,7 @@ from tkinter.filedialog import askopenfilename
 import tkinter.messagebox
 import openpyxl
 from openpyxl import load_workbook
+import pickle
 import Square_pull
 import Square_push
 
@@ -43,6 +44,7 @@ class SlowCH_Manager(Canvas):
 
 if __name__ == "__main__":
     workbook = ""
+    catalog = ""
     root = Tk()
     w = 1300 # width for the Tk root
     h = 700 # height for the Tk root
@@ -58,6 +60,20 @@ if __name__ == "__main__":
     # set the dimensions of the screen 
     # and where it is placed
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+
+    try:
+    # Getting back the objects:
+        with open('workbook.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
+            workbook = pickle.load(f)
+            print(workbook)
+    except:
+        print()
+    try:
+        with open('catalog.pkl', 'rb') as f:  # Python 3: open(..., 'rb')
+            catalog = pickle.load(f)
+            print(catalog)
+    except:
+        print()
 #Buttons
     def Workbook():
         try:
@@ -67,7 +83,27 @@ if __name__ == "__main__":
                                                     ("All files", "*.*") ))
             workbook = str(fname)
             root=Tk()
-            tkinter.messagebox.showinfo('Success','Worksheet loaded!')
+            tkinter.messagebox.showinfo('Success','Workbook loaded! Restart to confirm')
+            # Saving the objects:
+            with open('workbook.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+                pickle.dump(workbook, f)
+
+        except:
+            root=Tk()
+            tkinter.messagebox.showinfo('Error','Invalid sheet. Must be in .xlsx format')
+
+    def Catalog():
+        try:
+            global catalog
+            
+            fname = askopenfilename(filetypes=(("Excel files", "*.xlsx"),
+                                                    ("All files", "*.*") ))
+            catalog = str(fname)
+            root=Tk()
+            tkinter.messagebox.showinfo('Success','Catalog loaded! Restart to confirm')
+            # Saving the objects:
+            with open('catalog.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
+                pickle.dump(catalog, f)
 
         except:
             root=Tk()
@@ -151,7 +187,7 @@ if __name__ == "__main__":
     #scan input
     description = tk.StringVar()
     descriptionEntry = ttk.Entry(width=13, textvariable=description)
-    descriptionEntry.grid(column=1, row=0)
+    descriptionEntry.grid(column=0, row=0)
     #tab selection
     variable = tk.StringVar(root)
     tabs = ["Magformers","TileBlox","Clicformers","Stick-O", "Dolce"]
@@ -163,11 +199,22 @@ if __name__ == "__main__":
     b.grid(row=2,column=0)
     c = Button(root, text = "Box", command = lambda : Box(description.get(),variable.get(),workbook))
     c.grid(row=3,column=0)
-    d = Button(root, text = "Push", command = lambda : Square_push.push_to_square())
+    d = Button(root, text = "Push to Square", command = lambda : Square_push.push_to_square(variable.get(),workbook,catalog))
     d.grid(row=4,column=0)
-    e = Button(root, text = "Pull", command = lambda : Square_pull.pull_from_square())
+    e = Button(root, text = "Pull from Square", command = lambda : Square_pull.pull_from_square(variable.get(),workbook))
     e.grid(row =5, column = 0)
     f = Button(root, text = "Define Workbook", command = lambda : Workbook())
     f.grid(row=2,column=1)
+    g = Button(root, text = "Define Catalog", command = lambda : Catalog())
+    g.grid(row=3,column=1)
+    if workbook != "":
+        label_workbook = Label(root, text=workbook).grid(row = 6, column = 0)
+    else:
+        label_workbook = Label(root, text="No workbook loaded!").grid(row = 6, column = 0)
+    if catalog != "":
+        label_catalog = Label(root, text=catalog).grid(row = 7, column = 0)
+    else:
+        label_workbook = Label(root, text="No catalog loaded!").grid(row = 7, column = 0)
+
 
     root.mainloop()
