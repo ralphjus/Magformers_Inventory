@@ -83,14 +83,12 @@ if __name__ == "__main__":
             fname = askopenfilename(filetypes=(("Excel files", "*.xlsx"),
                                                     ("All files", "*.*") ))
             workbook = str(fname)
-            root=Tk()
             tkinter.messagebox.showinfo('Success','Workbook loaded! Restart to confirm')
             # Saving the objects:
             with open('workbook.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
                 pickle.dump(workbook, f)
 
         except:
-            root=Tk()
             tkinter.messagebox.showinfo('Error','Invalid sheet. Must be in .xlsx format')
 
     def Catalog():
@@ -100,14 +98,12 @@ if __name__ == "__main__":
             fname = askopenfilename(filetypes=(("Excel files", "*.xlsx"),
                                                     ("All files", "*.*") ))
             catalog = str(fname)
-            root=Tk()
             tkinter.messagebox.showinfo('Success','Catalog loaded! Restart to confirm')
             # Saving the objects:
             with open('catalog.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
                 pickle.dump(catalog, f)
 
         except:
-            root=Tk()
             tkinter.messagebox.showinfo('Error','Invalid sheet. Must be in .xlsx format')
 
     #boxes
